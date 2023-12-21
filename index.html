@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>Home - Aliyun 计算巢 x Demo</title>
+
+  <link rel="shortcut icon" href="img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="search/main.js"></script>
+  
+
+  
+
+  <script src="js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#_1">介绍</a></li>
+              
+          
+              <li><a href="#_2">前提条件</a></li>
+              
+                  <li><a href="#_3">计费说明</a></li>
+                  
+              
+                  <li><a href="#_4">参数说明</a></li>
+                  
+              
+          
+              <li><a href="#_5">部署流程</a></li>
+              
+          
+              <li><a href="#_6">使用</a></li>
+              
+                  <li><a href="#_7">访问控制台</a></li>
+                  
+              
+                  <li><a href="#_8">领域配置</a></li>
+                  
+              
+                  <li><a href="#style">主题和Style</a></li>
+                  
+              
+                  <li><a href="#_9">用户管理</a></li>
+                  
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h2 id="_1">介绍</h2>
+<p>Keycloak 是一个开源的身份和访问管理解决方案，适用于现代应用程序和服务。它提供了一整套安全性认证和管理特性，能够帮助开发者轻松实现安全认证和单点登录(SSO)。 </p>
+<ol>
+<li>用户联邦 (User Federation): Keycloak 支持与现有的用户存储进行集成，如 LDAP 或 Active Directory，允许用户使用现有的身份凭证进行登录。</li>
+<li>身份代理和社交登录 (Identity Brokering and Social Login): 提供了与外部身份提供者（如 Facebook, Google, Twitter 等）的集成，用户可以使用社交账户进行登录，同时支持标准协议例如 OpenID Connect, SAML 2.0, 和 OAuth 2.0。</li>
+<li>精细的访问控制 (Fine-grained Authorization): Keycloak 允许创建详细的访问控制策略，为每个用户或组定义特定的角色与权限，确保只有合适的用户能够访问敏感资源。</li>
+</ol>
+<h2 id="_2">前提条件</h2>
+<p>使用Keycloak服务实例，需要对部分阿里云资源进行访问和创建操作。因此您的账号需要包含如下资源的权限。
+<strong>说明</strong>：当您的账号是RAM账号时，才需要添加此权限。</p>
+<table>
+<thead>
+<tr>
+<th>权限策略名称</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AliyunECSFullAccess</td>
+<td>管理云服务器服务（ECS）的权限</td>
+</tr>
+<tr>
+<td>AliyunVPCFullAccess</td>
+<td>管理专有网络（VPC）的权限</td>
+</tr>
+<tr>
+<td>AliyunROSFullAccess</td>
+<td>管理资源编排服务（ROS）的权限</td>
+</tr>
+<tr>
+<td>AliyunComputeNestSupplierFullAccess</td>
+<td>管理计算巢服务（ComputeNest）的商家侧权限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">计费说明</h3>
+<p>Keycloak部署涉及的费用主要涉及：</p>
+<ul>
+<li>云服务器服务（ECS）费用</li>
+<li>流量带宽费用</li>
+</ul>
+<h3 id="_4">参数说明</h3>
+<table>
+<thead>
+<tr>
+<th>参数组</th>
+<th>参数项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务实例</td>
+<td>服务实例名称</td>
+<td>长度不超过64个字符，必须以英文字母开头，可包含数字、英文字母、短划线（-）和下划线（_）</td>
+</tr>
+<tr>
+<td></td>
+<td>地域</td>
+<td>服务实例部署的地域</td>
+</tr>
+<tr>
+<td>付费类型配置</td>
+<td>付费类型</td>
+<td>按量付费/包年包月</td>
+</tr>
+<tr>
+<td>ECS实例配置</td>
+<td>实例类型</td>
+<td>部署的ECS实例类型</td>
+</tr>
+<tr>
+<td></td>
+<td>实例密码</td>
+<td>服务器登录密码,长度8-30，必须包含三项（大写字母、小写字母、数字、 ()`~!@#$%^&amp;*_-+=｜{}[]:;'&lt;&gt;,.?/ 中的特殊符号）</td>
+</tr>
+<tr>
+<td>可用区配置</td>
+<td>交换机可用区</td>
+<td>该实例类型可部署的可用区</td>
+</tr>
+<tr>
+<td>网络配置</td>
+<td>是否新建VPC</td>
+<td>选择是否在当前可用区新建VPC</td>
+</tr>
+<tr>
+<td></td>
+<td>专有网络VPC实例Id</td>
+<td>选择当前可用区下的VPC实例</td>
+</tr>
+<tr>
+<td></td>
+<td>交换机实例Id</td>
+<td>选择当前VPC支持的交换机</td>
+</tr>
+<tr>
+<td>Keycloak配置</td>
+<td>是否在Keycloak接入阿里云认证</td>
+<td>如选择"是"，则会在Keycloak里创建打通阿里云认证的Identity provider</td>
+</tr>
+<tr>
+<td></td>
+<td>RealmName</td>
+<td>阿里云认证Identity provider和登录Client所在领域</td>
+</tr>
+<tr>
+<td></td>
+<td>KeycloakAdminUserName</td>
+<td>管理员账号名</td>
+</tr>
+<tr>
+<td></td>
+<td>KeycloakAdminPassword</td>
+<td>管理员密码</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">部署流程</h2>
+<ol>
+<li>选择付费类型</li>
+<li>选择部署地域</li>
+<li>选择要部署的ECS实例规格和输入实例密码
+   <img src="./1.png" alt="Image"></li>
+<li>选择交换机可用区，这是由您选择的ECS实例规格决定的</li>
+<li>选择/新建专有网络(VPC)和交换机(VSW)</li>
+<li>选择是否接入阿里云认证。如选择则在您输入的RealmName中构建一个Identity provider和一个Client。同时在阿里云<a href="https://ram.console.aliyun.com/">OAuth</a>处构建认证Client。</li>
+<li>输入keycloak的管理账号和密码
+   <img src="./2.png" alt="Image"></li>
+</ol>
+<h2 id="_6">使用</h2>
+<h3 id="_7">访问控制台</h3>
+<ol>
+<li>进入部署的计算巢实例的控制台界面。
+   <img src="./3.png" alt="Image"></li>
+<li>如在之前选择接入阿里云认证，则控制台会额外输出OAuthClientId和OAuthClientSecret。这既是Keycloak中登录APP的Id和Secret也是阿里云OAuth认证的Id和Secret。</li>
+<li>控制台输出的KeycloakEndpoint为Keycloak服务的访问地址。
+   <img src="./4.png" alt="Image"></li>
+<li>点击"Administration Console"，输入您设置的账号名和密码则可进入Keycloak管理界面。
+   <img src="./5.png" alt="Image"></li>
+</ol>
+<h3 id="_8">领域配置</h3>
+<p>安全隔离：每个realm相当于一个独立的命名空间，可以包含自己的用户、角色、客户端（应用程序）和其他身份管理相关的配置。这使得在同一个Keycloak服务器上可以为不同的组织或项目提供隔离的安全环境。</p>
+<p>用户管理：在特定的realm内部，管理员可以创建和管理用户账号，分配角色和权限，并进行用户身份验证和授权管理。</p>
+<p>客户端应用程序管理：每个realm都可以配置和管理自己的客户端应用程序，这些客户端应用程序可以是网页应用、单页应用（SPA）、移动应用或后端服务。</p>
+<p>身份提供者：realm支持与各种外部身份提供者（如Facebook、Google、微软等）以及企业身份管理系统（如LDAP、Active Directory）的集成。</p>
+<p>认证流程：realm允许自定义认证流程，这样可以根据具体需求调整登录过程，包括多因素认证（MFA）或单点登录（SSO）的配置。</p>
+<p>协议支持：Keycloak支持多种标准的身份认证协议，如OpenID Connect、OAuth 2.0和SAML 2.0，realm内的配置决定了这些协议的具体实现和行为。</p>
+<p>事件和审计：Keycloak的realm具备事件记录和审计功能，可以追踪和记录用户活动，如登录尝试、密码更新等，便于监控和合规性检查。</p>
+<p>主题和国际化：realm可以自定义用户界面的外观和感觉，支持不同的主题，并提供国际化选项。</p>
+<p>令牌配置：在realm中可以配置不同类型的令牌（如访问令牌、刷新令牌、ID令牌等），包括它们的有效期、签名算法等。</p>
+<p>安全策略：管理员可以在realm内定义密码策略、会话策略、令牌策略等，以增强系统的安全性。</p>
+<p>Keycloak在创建时会有一个默认的realm，通常叫做"master"，用于管理整个Keycloak实例。管理员可以在master realm中创建新的realms，并为这些realms配置适当的安全策略和用户访问规则。通过这种方式，Keycloak可以灵活地适应各种复杂的安全需求。</p>
+<h3 id="style">主题和Style</h3>
+<p>Keycloak支持自定义界面主题，包括登录页面、管理员控制台、账户管理界面和邮件模板。</p>
+<ol>
+<li><strong>更改主题：</strong></li>
+<li>在领域设置中，选择“Themes”选项卡。</li>
+<li>对于每个不同的界面，您可以从下拉菜单中选择一个主题。</li>
+<li>保存更改。</li>
+<li><strong>创建自定义主题：</strong></li>
+<li>自定义主题需要在Keycloak服务器的主题目录中创建。</li>
+<li>创建一个新文件夹，使用您所选择的主题名称。</li>
+<li>在该文件夹中创建子文件夹和文件，用于定义页面的HTML、样式CSS和脚本。</li>
+<li>重新启动Keycloak服务器以加载新主题。</li>
+<li>在管理控制台中选择新主题作为活动主题。</li>
+</ol>
+<h3 id="_9">用户管理</h3>
+<p>用户管理是在领域中完成的，涉及添加、编辑、删除用户和管理用户属性、凭据、角色和组。</p>
+<ol>
+<li><strong>添加新用户：</strong></li>
+<li>在领域配置中，选择“Users”菜单项。</li>
+<li>点击“Add user”按钮。</li>
+<li>填写必要的用户信息，如用户名、电子邮件、名字、姓氏等。</li>
+<li>点击“Save”以创建用户。</li>
+<li><strong>编辑用户属性：</strong></li>
+<li>在用户列表中，点击特定用户的用户名。</li>
+<li>您可以编辑用户的基本属性、角色映射、组成员身份、用户凭据，甚至管理用户的会话。</li>
+<li><strong>用户角色和细粒度管理：</strong></li>
+<li>Keycloak中的角色可以指定给用户，用户组或者整个领域。</li>
+<li>在用户编辑界面，选择“Role Mappings”选项卡为用户分配领域或客户端级别的角色。</li>
+<li>您还可以管理组织单位，简化对用户的角色分配。</li>
+</ol>
+<p>用户管理非常灵活，允许管理员通过内置的管理控制台或者使用REST API来进行自动化的用户操作。</p>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.5.3
+  Docs Build Date UTC : 2023-12-21 07:45:21.223568+00:00
+  -->
+</body>
+</html>
