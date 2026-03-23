@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>Index en - Aliyun 计算巢 x Demo</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="../search/main.js"></script>
+  
+
+  
+
+  <script src="../js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#introduction">Introduction</a></li>
+              
+          
+              <li><a href="#prerequisites">Prerequisites</a></li>
+              
+                  <li><a href="#billing-description">Billing Description</a></li>
+                  
+              
+                  <li><a href="#parameter-description">Parameter Description</a></li>
+                  
+              
+          
+              <li><a href="#deployment-process">Deployment process</a></li>
+              
+          
+              <li><a href="#use">Use</a></li>
+              
+                  <li><a href="#access-the-console">Access the console</a></li>
+                  
+              
+                  <li><a href="#realm-configuration">Realm Configuration</a></li>
+                  
+              
+                  <li><a href="#themes-and-style">Themes and Style</a></li>
+                  
+              
+                  <li><a href="#user-management">User Management</a></li>
+                  
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h2 id="introduction">Introduction</h2>
+<p>Keycloak is an open source identity and access management solution for modern applications and services. It provides a full set of security authentication and management features to help developers easily implement security authentication and single sign-on (SSO).</p>
+<p>User Federation: Keycloak supports integration with existing user stores, such as LDAP or Active Directory, allowing users to log in using their existing credentials.
+2. Identity Broker and Social Login (Identity Brokering and Social Login): Provides integration with external identity providers (such as Facebook, Google, Twitter, etc.). Users can log in using social accounts while supporting standard protocols such as OpenID Connect, SAML 2.0, and OAuth 2.0.
+Fine-grained access control (Fine-grained Authorization): Keycloak allows the creation of detailed access control policies that define specific roles and permissions for each user or group to ensure that only the right users have access to sensitive resources.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To use a Keycloak service instance, you need to access and create some Alibaba Cloud resources. Therefore, your account must contain permissions for the following resources.
+<strong>Note</strong>: This permission is required only when your account is a RAM account.</p>
+<table>
+<thead>
+<tr>
+<th>Permission policy name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AliyunECSFullAccess</td>
+<td>Permissions to manage ECS instances</td>
+</tr>
+<tr>
+<td>AliyunVPCFullAccess</td>
+<td>Permissions to manage a VPC</td>
+</tr>
+<tr>
+<td>AliyunROSFullAccess</td>
+<td>Manage permissions for Resource Orchestration Service (ROS)</td>
+</tr>
+<tr>
+<td>AliyunComputeNestSupplierFullAccess</td>
+<td>Manage merchant-side permissions for the compute nest service (ComputeNest)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="billing-description">Billing Description</h3>
+<p>The costs involved in Keycloak deployment are primarily related:</p>
+<p>-Cloud Server Service (ECS) fee
+-Traffic bandwidth charges</p>
+<h3 id="parameter-description">Parameter Description</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter group</th>
+<th>Parameter item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service Instance</td>
+<td>Service Instance Name</td>
+<td>The service instance name must be no more than 64 characters in length and must start with an English letter. It can contain numbers, English letters, dashes (-), and underscores (_).</td>
+</tr>
+<tr>
+<td></td>
+<td>Region</td>
+<td>The region where the service instance is deployed</td>
+</tr>
+<tr>
+<td>Payment Type Configuration</td>
+<td>Payment Type</td>
+<td>Pay-As-You-Go/Subscription</td>
+</tr>
+<tr>
+<td>ECS instance configuration</td>
+<td>Instance type</td>
+<td>Deployed ECS instance type</td>
+</tr>
+<tr>
+<td></td>
+<td>Instance Password</td>
+<td>Server login password, 8-30 in length, must contain three items (uppercase letters, lowercase letters, numbers, ()'~!@#$%^&amp; *_-+ =</td>
+</tr>
+<tr>
+<td>Zone Configuration</td>
+<td>Zone of the VSwitch</td>
+<td>The zones in which the instance type can be deployed</td>
+</tr>
+<tr>
+<td>Network configuration</td>
+<td>Whether to create a VPC</td>
+<td>Select whether to create a VPC in the current zone</td>
+</tr>
+<tr>
+<td></td>
+<td>VPC instance ID</td>
+<td>Select a VPC instance in the current zone</td>
+</tr>
+<tr>
+<td></td>
+<td>VSwitch Instance ID</td>
+<td>Select the VSwitch supported by the current VPC</td>
+</tr>
+<tr>
+<td>Keycloak configuration</td>
+<td>Whether to access Alibaba Cloud authentication in Keycloak</td>
+<td>If Yes is selected, a Identity provider to enable Alibaba Cloud authentication will be created in the Keycloak</td>
+</tr>
+<tr>
+<td></td>
+<td>RealmName</td>
+<td>Alibaba Cloud authentication Identity provider and login client domain</td>
+</tr>
+<tr>
+<td></td>
+<td>KeycloakAdminUserName</td>
+<td>Administrator account name</td>
+</tr>
+<tr>
+<td></td>
+<td>KeycloakAdminPassword</td>
+<td>Administrator password</td>
+</tr>
+</tbody>
+</table>
+<h2 id="deployment-process">Deployment process</h2>
+<ol>
+<li>Select the payment type</li>
+<li>Select the deployment region</li>
+<li>Select the ECS instance type to be deployed and enter the instance password
+<img src="images-en/1.png" alt="Image"></li>
+<li>Select the zone of the VSwitch, which is determined by the ECS instance type you select.</li>
+<li>Select/New VPC and Switch (VSW)</li>
+<li>Select whether to access Alibaba Cloud authentication. If selected, a Identity provider and a Client are built in the RealmName you entered. At the same time, an authentication client is built at Alibaba Cloud <a href="https://ram.console.aliyun.com/">OAuth</a>.</li>
+<li>Enter the keycloak management account and password
+<img src="images-en/2.png" alt="Image"></li>
+</ol>
+<h2 id="use">Use</h2>
+<h3 id="access-the-console">Access the console</h3>
+<ol>
+<li>Enter the console interface of the deployed compute nest instance.
+<img src="images-en/3.png" alt="Image"></li>
+<li>If you choose to access Alibaba Cloud authentication before, the console will output additional OAuthClientId and OAuthClientSecret. This is not only the ID and Secret of the login app in the Keycloak, but also the ID and Secret of Alibaba Cloud OAuth authentication.</li>
+<li>The KeycloakEndpoint output by the console is the access address of the Keycloak service.
+<img src="images-en/4.png" alt="Image"></li>
+<li>Click "Administration Console" and enter the account name and password you set to enter the Keycloak management interface.
+<img src="images-en/5.png" alt="Image"></li>
+</ol>
+<h3 id="realm-configuration">Realm Configuration</h3>
+<p>Security isolation: Each realm is equivalent to a separate namespace that can contain its own users, roles, clients (applications), and other identity management-related configurations. This allows for an isolated secure environment for different organizations or projects on the same Keycloak server.</p>
+<p>User management: Within a specific realm, administrators can create and manage user accounts, assign roles and permissions, and perform user authentication and authorization management.</p>
+<p>Client application management: Each realm can configure and manage its own client applications, which can be web applications, single-page applications (SPAs), mobile applications, or backend services.</p>
+<p>Identity providers: realm supports integration with various external identity providers (e. g., Facebook, Google, Microsoft, etc.) as well as enterprise identity management systems (e. g., LDAP, Active Directory).</p>
+<p>Authentication process: realm allows you to customize the authentication process so that you can tailor the login process to your specific needs, including the configuration of multi-factor authentication (MFA) or single sign-on (SSO).</p>
+<p>Protocol support: The Keycloak supports a variety of standard authentication protocols, such as OpenID Connect, OAuth 2.0, and SAML 2.0. The configuration in the realm determines the specific implementation and behavior of these protocols.</p>
+<p>Events and auditing: Keycloak realm features event logging and auditing to track and record user activities, such as login attempts and password updates, for easy monitoring and compliance checking.</p>
+<p>Themes and internationalization: realm can customize the look and feel of the user interface, support different themes, and provide internationalization options.</p>
+<p>Token configuration: You can configure different types of tokens (such as access tokens, refresh tokens, and ID tokens) in realm, including their validity periods and signature algorithms.</p>
+<p>Security policy: Administrators can define password policies, session policies, token policies, etc. within the realm to enhance the security of the system.</p>
+<p>The Keycloak is created with a default realm, usually called "master", that manages the entire Keycloak instance. Administrators can create new realms in the master realm and configure the appropriate security policies and user access rules for these realms. In this way, the Keycloak can flexibly adapt to complex security requirements.</p>
+<h3 id="themes-and-style">Themes and Style</h3>
+<p>Keycloak supports custom interface themes, including the login page, administrator console, account management interface, and email templates.</p>
+<ol>
+<li><strong>Change theme:</strong>
+-In the realm settings, select the "Themes" tab.
+-For each different interface, you can select a theme from the drop-down menu.
+-Save changes.</li>
+<li><strong>Create a custom theme:</strong>
+-Custom themes need to be created in the theme directory of the Keycloak server.
+-Create a new folder with the theme name of your choice.
+-Create subfolders and files in this folder that define the HTML, styling CSS, and scripts for the page.
+-Restart the Keycloak server to load the new theme.
+-Select the new theme as the active theme in the admin console.</li>
+</ol>
+<h3 id="user-management">User Management</h3>
+<p>User management is done in the realm and involves adding, editing, deleting users, and managing user properties, credentials, roles, and groups.</p>
+<ol>
+<li><strong>Add new user:</strong>
+-In the realm configuration, select the Users menu item.
+-Click the "Add user" button.
+-Fill in the necessary user information, such as user name, email, first name, last name, etc.
+-Click Save to create the user.</li>
+<li><strong>Edit User Properties:</strong>
+-In the Users list, click the username of a specific user.
+-You can edit a user's basic properties, role mappings, group memberships, user credentials, and even manage a user's session.</li>
+<li><strong>User roles and fine-grained management:</strong>
+-Roles in the Keycloak can be assigned to users, groups of users, or entire realms.
+-In the user editing interface, select the Role Mappings tab to assign the user a role at the realm or client level.
+-You can also manage organizational units and simplify the assignment of roles to users.</li>
+</ol>
+<p>User management is very flexible, allowing administrators to automate user operations through the built-in management console or using the REST API.</p>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.6.1
+  Docs Build Date UTC : 2026-03-23 08:05:24.004233+00:00
+  -->
+</body>
+</html>
